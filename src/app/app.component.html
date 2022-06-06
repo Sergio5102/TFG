@@ -1,0 +1,40 @@
+<!--Barra de menú en la que estará el boton de logout y tan solo aparecera cuando la sesión esté iniciada-->
+<nav *ngIf="auth.user | async as user; else login" class="navbar navbar-expand-lg navbar-light bg-dark">
+    <a class="navbar-brand" routerLink="/home" style="color: white; margin-left: 10px;">Listado de empleados</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+    </div>
+    <div class="userDiv" style="color: white;">
+        {{ user.email }}
+        <button (click)="auth.logout()" routerLink="/home" class="btn btn-danger btn-md float-right"
+            style="font-size: 22px;">Logout</button>
+    </div>
+</nav>
+<ng-template #login>
+    <div class=" card loginDiv">
+        <div class="card-body">
+            <h3>Iniciar Sesión</h3>
+            <!--Formulario para inicio de sesión-->
+            <form>
+                <input class="form-control" type="text" name="email" placeholder="Email" [(ngModel)]="auth.email" />
+
+                <br />
+
+
+                <input class="form-control" type="password" name="pass" placeholder="Contraseña"
+                    [(ngModel)]="auth.pass" />
+
+                <br />
+
+
+                <button (click)="auth.login(); " class="btn btn-primary"> Iniciar Sesión</button>
+                <br />
+                <button (click)="auth.glogin()" class="btn btn-danger mt-4">
+                    <i class="fa-brands fa-google"></i>
+                    Iniciar Sesión con Google</button>
+            </form>
+        </div>
+    </div>
+</ng-template>
+<!--Para que las rutas funcionen debemos poner la etiqueta router-outlet-->
+<router-outlet *ngIf="auth.user | async as user;"></router-outlet>
